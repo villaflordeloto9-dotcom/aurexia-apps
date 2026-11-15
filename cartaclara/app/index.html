@@ -59,6 +59,8 @@ button:focus-visible,label:focus-within,textarea:focus-visible{outline:3px solid
 .drop.over{border-color:var(--action);color:var(--ink);background:var(--action-soft)}
 .thumbs{display:flex;gap:8px;flex-wrap:wrap}
 .thumbs img{width:64px;height:84px;object-fit:cover;border-radius:8px;border:1px solid var(--line)}
+.tin{width:100%;box-sizing:border-box;min-height:50px;font:inherit;font-size:1rem;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:0 14px}
+.tester{border-color:var(--action);background:linear-gradient(var(--action-soft),var(--surface))}
 textarea{width:100%;min-height:110px;font:inherit;font-size:1rem;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:12px;resize:vertical}
 label.t{font-weight:600;font-size:.95rem}
 .status{font-size:.95rem;color:var(--muted);min-height:1.5em;text-align:center}
@@ -151,6 +153,18 @@ ul.plain{margin:0;padding-left:1.2em;display:grid;gap:6px}
 
   <section class="results" id="results" aria-live="polite"></section>
 
+  <section class="card tester" id="tester">
+    <h2 data-i18n="tTitle"></h2>
+    <p data-i18n="tText" style="margin:0;color:var(--muted)"></p>
+    <form id="tform" style="display:grid;gap:10px" novalidate>
+      <input id="tname" type="text" autocomplete="name" data-ph="tName" class="tin">
+      <input id="temail" type="email" autocomplete="email" inputmode="email" data-ph="tEmail" class="tin" required>
+      <label style="display:flex;gap:10px;align-items:flex-start;font-size:.92rem;color:var(--muted)"><input type="checkbox" id="tconsent" style="width:22px;height:22px;flex:none;margin-top:1px"><span data-i18n="tConsent"></span></label>
+      <button class="primary" type="submit" id="tgo" style="min-height:52px;font-size:1rem" data-i18n="tGo"></button>
+      <div id="tstatus" role="status" aria-live="polite" style="font-weight:600"></div>
+    </form>
+  </section>
+
   <details class="card privacy" id="privacy">
     <summary data-i18n="privacyTitle"></summary>
     <p data-i18n="privacy1"></p>
@@ -187,6 +201,7 @@ const T = {
     copy:"Copiar resumen", copied:"Resumen copiado.", copyFail:"No se pudo copiar. Mantén pulsado el texto para seleccionarlo.",
     ask:"Preparar preguntas para un profesional", askTitle:"Preguntas para tu gestor o abogado",
     clear:"Borrar todo de esta pantalla", cleared:"Borrado. No queda nada de tu carta en esta pantalla.",
+    tTitle:"¿Tienes móvil Android? Hazte probador oficial", tText:"Para publicar Carta Clara en Google Play necesitamos 14 personas que la prueben durante 14 días. Déjanos tu Gmail (el que usas en Play Store) y te mandamos el enlace para instalarla: son dos toques.", tName:"Tu nombre", tEmail:"Tu Gmail de Play Store", tConsent:"Acepto que Aurexia Labs use mi nombre y Gmail solo para invitarme a probar Carta Clara en Google Play. Puedo pedir que lo borren cuando quiera.", tGo:"Quiero ser probador", tOk:"¡Gracias! Te escribiremos en unos días con el enlace.", tErr:"Revisa el Gmail y marca la casilla.", tFail:"No se ha podido enviar. Inténtalo de nuevo.",
     privacyTitle:"Tu privacidad", privacy1:"Esta página no guarda tus fotos ni tus cartas.",
     privacy2:"Las cartas contienen datos personales. Cuando termines, pulsa «Borrar todo» para quitarla de la pantalla.",
     disclaimer:"Carta Clara explica, no asesora. Para decisiones con dinero o plazos, consulta a un profesional.",
@@ -212,6 +227,7 @@ const T = {
     copy:"Zusammenfassung kopieren", copied:"Zusammenfassung kopiert.", copyFail:"Kopieren ging nicht. Halten Sie den Text gedrückt, um ihn auszuwählen.",
     ask:"Fragen für eine Fachperson vorbereiten", askTitle:"Fragen für Ihren Gestor oder Anwalt",
     clear:"Alles von diesem Bildschirm löschen", cleared:"Gelöscht. Von Ihrem Brief ist auf diesem Bildschirm nichts mehr.",
+    tTitle:"Sie haben ein Android-Handy? Werden Sie offizieller Tester", tText:"Damit wir Carta Clara bei Google Play veröffentlichen können, brauchen wir 14 Personen, die sie 14 Tage lang testen. Hinterlassen Sie Ihre Gmail-Adresse (die aus dem Play Store), und wir schicken Ihnen den Link zur Installation – nur zwei Klicks.", tName:"Ihr Name", tEmail:"Ihre Gmail-Adresse aus dem Play Store", tConsent:"Ich bin einverstanden, dass Aurexia Labs meinen Namen und meine Gmail-Adresse nur nutzt, um mich zum Testen von Carta Clara bei Google Play einzuladen. Ich kann jederzeit die Löschung verlangen.", tGo:"Ich möchte testen", tOk:"Danke! Wir schreiben Ihnen in ein paar Tagen mit dem Link.", tErr:"Bitte Gmail-Adresse prüfen und das Kästchen ankreuzen.", tFail:"Senden fehlgeschlagen. Bitte noch einmal versuchen.",
     privacyTitle:"Ihre Privatsphäre", privacy1:"Diese Seite speichert Ihre Fotos und Briefe nicht.",
     privacy2:"Briefe enthalten persönliche Daten. Wenn Sie fertig sind, tippen Sie auf „Alles löschen“.",
     disclaimer:"Carta Clara erklärt, berät aber nicht. Bei Geld oder Fristen fragen Sie eine Fachperson.",
@@ -237,6 +253,7 @@ const T = {
     copy:"Copy summary", copied:"Summary copied.", copyFail:"Couldn't copy. Press and hold the text to select it.",
     ask:"Prepare questions for a professional", askTitle:"Questions for your gestor or lawyer",
     clear:"Clear everything from this screen", cleared:"Cleared. Nothing of your letter is left on this screen.",
+    tTitle:"Have an Android phone? Become an official tester", tText:"To publish Carta Clara on Google Play we need 14 people to test it for 14 days. Leave your Gmail (the one you use in the Play Store) and we'll send you the link to install it – just two taps.", tName:"Your name", tEmail:"Your Play Store Gmail", tConsent:"I agree that Aurexia Labs uses my name and Gmail only to invite me to test Carta Clara on Google Play. I can ask for them to be deleted at any time.", tGo:"I want to test it", tOk:"Thank you! We'll write to you in a few days with the link.", tErr:"Check your Gmail and tick the box.", tFail:"Couldn't send it. Please try again.",
     privacyTitle:"Your privacy", privacy1:"This page doesn't save your photos or letters.",
     privacy2:"Letters contain personal data. When you're done, tap “Clear everything”.",
     disclaimer:"Carta Clara explains, it doesn't advise. For decisions about money or deadlines, ask a professional.",
@@ -308,6 +325,7 @@ function applyLang(){
   document.documentElement.lang = lang;
   document.querySelectorAll("[data-i18n]").forEach(el => { el.textContent = t[el.dataset.i18n]; });
   $("#text").placeholder = t.placeholder;
+  document.querySelectorAll("[data-ph]").forEach(el => el.placeholder = t[el.dataset.ph]);
   document.querySelectorAll("#langs button").forEach(b => b.setAttribute("aria-pressed", b.dataset.lang === lang));
   document.querySelectorAll("#thumbs img").forEach(i => i.alt = t.thumbAlt);
   $("#status").textContent = "";
@@ -405,6 +423,17 @@ $("#clear").addEventListener("click", () => {
   $("#status").textContent = T[lang].cleared;
 });
 
+$("#tform").addEventListener("submit", async e => {
+  e.preventDefault(); const t = T[lang], st = $("#tstatus");
+  const email = $("#temail").value.trim(), ok = /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email);
+  if (!ok || !$("#tconsent").checked){ st.textContent = t.tErr; return; }
+  $("#tgo").disabled = true; st.textContent = "";
+  try {
+    const r = await fetch(API.replace("/explain","/tester"), {method:"POST", headers:{"content-type":"application/json"}, body: JSON.stringify({name:$("#tname").value.trim(), email, lang, consent:true})});
+    if (!r.ok) throw 0;
+    st.textContent = t.tOk; $("#tform").querySelectorAll("input").forEach(i => i.disabled = true);
+  } catch { st.textContent = t.tFail; $("#tgo").disabled = false; }
+});
 booted = true;
 </script>
 
