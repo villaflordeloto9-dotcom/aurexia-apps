@@ -1,0 +1,61 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Carta Clara</title><meta name="description" content="Haz una foto a tu carta oficial y entiende qué dice, qué hacer y hasta cuándo. En español, alemán e inglés."><link rel="icon" href="icono.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Public+Sans:wght@400;600;700&display=swap">
+<style>
+:root{--bg:#f6f8fc;--fg:#0b1630;--muted:#4a5875;--card:#fff;--line:#dde4ef;--accent:#2f7cf6;--gold:#b8892f;--hero:#0b1630;--heroFg:#fff}
+@media (prefers-color-scheme:dark){:root{--bg:#0a1226;--fg:#e8eefb;--muted:#a9b6cf;--card:#111c38;--line:#22305a;--accent:#5aa8ff;--gold:#d6a84e;color-scheme:dark}}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%}
+body{margin:0;font-family:'Public Sans',system-ui,sans-serif;background:var(--bg);color:var(--fg);line-height:1.6;font-size:17px}
+h1,h2,h3,.brand{font-family:'Bricolage Grotesque','Public Sans',sans-serif;letter-spacing:-.02em;line-height:1.15;text-wrap:balance}
+a{color:var(--accent)}
+.wrap{max-width:880px;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left));padding-right:max(20px,env(safe-area-inset-right))}
+header.top{background:var(--hero);color:var(--heroFg)}
+header.top .wrap{display:flex;align-items:center;gap:14px;padding-block:16px;flex-wrap:wrap}
+.brand{font-weight:800;font-size:22px;color:#fff;text-decoration:none;display:flex;align-items:center;gap:10px}
+.brand img{width:40px;height:40px;border-radius:10px}.brand span{color:#58b4ff}
+.langs{margin-left:auto;display:flex;gap:6px}
+.langs button{font:600 14px 'Public Sans',sans-serif;border:1px solid #2a3a63;background:transparent;color:#c9d6ee;border-radius:999px;padding:6px 12px;cursor:pointer}
+.langs button[aria-pressed=true]{background:#fff;color:#0b1630;border-color:#fff}
+.hero{background:var(--hero);color:#fff;padding-block:40px 64px}
+.hero h1{font-size:clamp(34px,7vw,56px);margin:0 0 16px}.hero h1 em{font-style:normal;color:#58b4ff}
+.hero p{font-size:19px;color:#c9d6ee;max-width:60ch;margin:0 0 24px}
+.cta{display:inline-flex;align-items:center;gap:10px;background:#2f7cf6;color:#fff;text-decoration:none;font-weight:700;border-radius:14px;padding:14px 22px}
+.soon{display:block;margin-top:10px;color:#a9b6cf;font-size:14px}
+section{padding-block:44px}section h2{font-size:30px;margin:0 0 20px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;min-width:0}
+.card h3{margin:0 0 6px;font-size:19px}.card p{margin:0;color:var(--muted)}
+.num{display:inline-grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--accent);color:#fff;font-weight:800;margin-bottom:10px}
+.price{display:flex;flex-wrap:wrap;gap:16px;align-items:stretch}
+.price .card{flex:1 1 240px}.big{font-family:'Bricolage Grotesque',sans-serif;font-size:40px;font-weight:800}
+.gold{color:var(--gold)}
+.legal h2{font-size:24px;margin:32px 0 8px}.legal h3{font-size:18px;margin:22px 0 4px}.legal p{margin:0 0 10px;max-width:70ch}
+footer{border-top:1px solid var(--line);padding-block:28px;color:var(--muted);font-size:14px}
+footer nav{display:flex;flex-wrap:wrap;gap:16px;margin-bottom:8px}
+[data-l]{display:none}html[lang=es] [data-l=es],html[lang=de] [data-l=de],html[lang=en] [data-l=en]{display:revert}
+</style></head><body>
+<header class="top"><div class="wrap"><a class="brand" href="./"><img src="icono.svg" alt="">Carta <span>Clara</span></a>
+<div class="langs" role="group" aria-label="Idioma"><button data-set="es">ES</button><button data-set="de">DE</button><button data-set="en">EN</button></div></div></header>
+<div class="hero"><div class="wrap">
+<h1><span data-l="es">Tus cartas oficiales, <em>por fin claras.</em></span><span data-l="de">Deine Behördenbriefe, <em>endlich klar.</em></span><span data-l="en">Your official letters, <em>finally clear.</em></span></h1>
+<p><span data-l="es">Haz una foto a tu carta, en español, alemán, inglés u otro idioma. Carta Clara te explica en tu idioma qué significa, si es urgente, hasta cuándo tienes y qué pasos dar.</span><span data-l="de">Fotografiere deinen Brief – auf Spanisch, Deutsch, Englisch oder in einer anderen Sprache. Carta Clara erklärt dir in deiner Sprache, was er bedeutet, ob er dringend ist, welche Frist gilt und was zu tun ist.</span><span data-l="en">Take a photo of your letter, in Spanish, German, English or another language. Carta Clara explains in your language what it means, whether it's urgent, your deadline and what to do.</span></p>
+<a class="cta" href="#precio"><span data-l="es">Tu primera carta, gratis</span><span data-l="de">Dein erster Brief: gratis</span><span data-l="en">Your first letter free</span></a>
+<span class="soon"><span data-l="es">Muy pronto en Google Play</span><span data-l="de">Bald bei Google Play</span><span data-l="en">Coming soon to Google Play</span></span></div></div>
+<section><div class="wrap"><h2><span data-l="es">Así de fácil</span><span data-l="de">So einfach geht's</span><span data-l="en">It's that easy</span></h2><div class="grid">
+<div class="card"><div class="num">1</div><h3><span data-l="es">Haz una foto</span><span data-l="de">Foto machen</span><span data-l="en">Take a photo</span></h3><p><span data-l="es">De la carta, un PDF o una captura. Varias páginas si hace falta.</span><span data-l="de">Vom Brief, einem PDF oder Screenshot. Auch mehrere Seiten.</span><span data-l="en">Of the letter, a PDF or a screenshot. Several pages if needed.</span></p></div>
+<div class="card"><div class="num">2</div><h3><span data-l="es">Espera un minuto</span><span data-l="de">Eine Minute warten</span><span data-l="en">Wait a minute</span></h3><p><span data-l="es">La leemos con calma y la explicamos en lenguaje sencillo.</span><span data-l="de">Wir lesen ihn in Ruhe und erklären ihn in einfachen Worten.</span><span data-l="en">We read it carefully and explain it in plain words.</span></p></div>
+<div class="card"><div class="num">3</div><h3><span data-l="es">Sabes qué hacer</span><span data-l="de">Du weißt, was zu tun ist</span><span data-l="en">Know what to do</span></h3><p><span data-l="es">Qué significa, si es urgente, el plazo, los pasos y las palabras difíciles.</span><span data-l="de">Was er bedeutet, ob er dringend ist, die Frist, die Schritte und schwierige Begriffe.</span><span data-l="en">What it means, whether it's urgent, the deadline, the steps and the difficult words.</span></p></div>
+</div></div></section>
+<section style="padding-top:0"><div class="wrap"><h2><span data-l="es">Para cualquier carta importante</span><span data-l="de">Für jeden wichtigen Brief</span><span data-l="en">For any important letter</span></h2>
+<p><span data-l="es">Hacienda, Seguridad Social, ayuntamiento, Correos y aduanas, tráfico, juzgados, bancos, seguros, el Finanzamt alemán o la HMRC británica. Cada carta se explica según las normas del país que la envía.</span><span data-l="de">Spanisches Finanzamt, Sozialversicherung, Rathaus, Correos und Zoll, Verkehrsbehörde, Gerichte, Banken, Versicherungen, das deutsche Finanzamt oder die britische HMRC. Jeder Brief wird nach den Regeln des Landes erklärt, aus dem er kommt.</span><span data-l="en">Spanish tax office, Social Security, town hall, Correos and customs, traffic authority, courts, banks, insurers, the German Finanzamt or the UK's HMRC. Each letter is explained under the rules of the country that sent it.</span></p></div></section>
+<section id="precio" style="padding-top:0"><div class="wrap"><h2><span data-l="es">Precio claro</span><span data-l="de">Klarer Preis</span><span data-l="en">Clear price</span></h2><div class="price">
+<div class="card"><div class="big gold"><span data-l="es">Gratis</span><span data-l="de">Gratis</span><span data-l="en">Free</span></div><p><span data-l="es">Tu primera carta.</span><span data-l="de">Dein erster Brief.</span><span data-l="en">Your first letter.</span></p></div>
+<div class="card"><div class="big">2,99&nbsp;€</div><p><span data-l="es">Por cada carta después. Sin suscripción.</span><span data-l="de">Pro weiterem Brief. Ohne Abo.</span><span data-l="en">Per letter after that. No subscription.</span></p></div>
+<div class="card"><div class="big">🔒</div><p><span data-l="es">No guardamos tus cartas. Se leen, se explican y se borran.</span><span data-l="de">Wir speichern deine Briefe nicht. Sie werden gelesen, erklärt und gelöscht.</span><span data-l="en">We don't keep your letters. They're read, explained and deleted.</span></p></div>
+</div><p style="color:var(--muted);font-size:15px;margin-top:18px"><span data-l="es">Carta Clara explica, no asesora. Las explicaciones las genera una inteligencia artificial y son orientativas: para decisiones importantes, consulta a un profesional.</span><span data-l="de">Carta Clara erklärt, berät aber nicht. Die Erklärungen erstellt eine KI; sie dienen zur Orientierung. Bei wichtigen Entscheidungen frag eine Fachperson.</span><span data-l="en">Carta Clara explains; it doesn't advise. Explanations are AI-generated and for guidance only: for important decisions, ask a professional.</span></p></div></section><footer><div class="wrap"><nav><a href="./">Carta Clara</a><a href="privacidad.html"><span data-l="es">Privacidad</span><span data-l="de">Datenschutz</span><span data-l="en">Privacy</span></a><a href="aviso-legal.html"><span data-l="es">Aviso legal y condiciones</span><span data-l="de">Impressum und Bedingungen</span><span data-l="en">Legal notice and terms</span></a><a href="mailto:aurexialabs@outlook.com">aurexialabs@outlook.com</a></nav>
+© 2026 Aurexia Labs · Sander Luis Dueñas Boza · NIF Y7378148S</div></footer><script>
+(function(){var ok=['es','de','en'];function set(l){document.documentElement.lang=l;document.querySelectorAll('.langs button').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.set===l)});try{localStorage.setItem('cc-lang',l)}catch(e){}}
+var l='es';try{l=localStorage.getItem('cc-lang')||''}catch(e){}if(ok.indexOf(l)<0){var n=(navigator.language||'es').slice(0,2);l=ok.indexOf(n)>=0?n:'es'}
+var q=(location.search.match(/lang=(es|de|en)/)||[])[1];if(q)l=q;
+document.addEventListener('click',function(e){var b=e.target.closest('[data-set]');if(b)set(b.dataset.set)});set(l)})();
+</script></body></html>
