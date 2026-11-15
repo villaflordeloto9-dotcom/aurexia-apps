@@ -1,0 +1,411 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Carta Clara"><meta name="theme-color" content="#0b1630">
+<link rel="apple-touch-icon" href="../icono.png"><link rel="icon" href="../icono.png">
+<style>:root{padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+</head><body>
+<title>Carta Clara</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=Public+Sans:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: one calm mobile column. Night-blue brand, one luminous-blue action, gold only as a hairline accent. */
+:root{
+  --bg:#f3f6fb; --surface:#ffffff; --ink:#0b1630; --muted:#4a5875; --line:#dde4ef;
+  --night:#0b1630; --action:#2f7cf6; --action-ink:#ffffff; --action-soft:#e8f0fe; --gold:#b8892f;
+  --ok:#2d7a4f; --warn:#a8670f; --danger:#b23a2a; --ok-soft:#e7f4ec; --warn-soft:#fbf1e1; --danger-soft:#fbe9e6;
+  --shadow:0 1px 2px rgba(11,22,48,.05),0 8px 24px rgba(11,22,48,.06);
+  --chip:#0b1630; --chip-ink:#ffffff;
+  --f-display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
+  --f-body:"Public Sans","Segoe UI",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#0a1224; --surface:#121d36; --ink:#eef2fa; --muted:#a9b6cf; --line:#24314f;
+  --night:#060c1a; --action:#5aa8ff; --action-ink:#06101f; --action-soft:#16284a; --gold:#d6a84e;
+  --ok:#6fcf97; --warn:#f0b75a; --danger:#ff8a78; --ok-soft:#12301f; --warn-soft:#33260f; --danger-soft:#3a1a16;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25); --chip:#5aa8ff; --chip-ink:#06101f; color-scheme:dark } }
+:root[data-theme="dark"]{
+  --bg:#0a1224; --surface:#121d36; --ink:#eef2fa; --muted:#a9b6cf; --line:#24314f;
+  --night:#060c1a; --action:#5aa8ff; --action-ink:#06101f; --action-soft:#16284a; --gold:#d6a84e;
+  --ok:#6fcf97; --warn:#f0b75a; --danger:#ff8a78; --ok-soft:#12301f; --warn-soft:#33260f; --danger-soft:#3a1a16;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25); --chip:#5aa8ff; --chip-ink:#06101f; color-scheme:dark }
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font:17px/1.6 var(--f-body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:16px 56px}
+.wrap{max-width:600px;margin:0 auto;display:grid;gap:22px}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;font:700 1.15rem var(--f-display);letter-spacing:-.01em}
+.brand svg{width:40px;height:40px;border-radius:11px;flex:none}
+.brand b{color:var(--action);font-weight:700}
+.langs{display:flex;gap:4px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:3px}
+.langs button{font:600 .85rem var(--f-body);border:0;background:transparent;color:var(--muted);padding:8px 12px;border-radius:999px;cursor:pointer;min-height:40px}
+.langs button[aria-pressed="true"]{background:var(--chip);color:var(--chip-ink)}
+.hero{display:grid;gap:12px;padding-top:8px}
+.hero h1{font:700 clamp(2rem,8vw,2.6rem)/1.08 var(--f-display);margin:0;letter-spacing:-.02em;text-wrap:balance}
+.hero h1::after{content:"";display:block;width:56px;height:3px;border-radius:2px;background:var(--gold);margin-top:14px}
+.hero p{margin:0;color:var(--muted);max-width:52ch}
+.primary{display:flex;align-items:center;justify-content:center;gap:12px;width:100%;min-height:64px;font:700 1.15rem var(--f-body);
+  background:var(--action);color:var(--action-ink);border:0;border-radius:18px;cursor:pointer;box-shadow:var(--shadow);text-align:center}
+.primary svg{width:26px;height:26px;flex:none}
+.primary:active{transform:scale(.99)}
+.primary[aria-disabled="true"]{opacity:.6;pointer-events:none}
+.hide-input{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
+.secondary{font:600 1rem var(--f-body);background:transparent;color:var(--ink);border:1px solid var(--line);border-radius:14px;min-height:52px;padding:10px 16px;cursor:pointer;width:100%}
+.quiet{font:600 .95rem var(--f-body);background:transparent;color:var(--muted);border:0;min-height:44px;padding:8px 4px;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+button:focus-visible,label:focus-within,textarea:focus-visible{outline:3px solid var(--action);outline-offset:3px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:20px;display:grid;gap:12px;box-shadow:var(--shadow);min-width:0}
+.more{display:grid;gap:14px}
+.drop{border:2px dashed var(--line);border-radius:14px;padding:18px;text-align:center;color:var(--muted);cursor:pointer;display:grid;gap:4px}
+.drop.over{border-color:var(--action);color:var(--ink);background:var(--action-soft)}
+.thumbs{display:flex;gap:8px;flex-wrap:wrap}
+.thumbs img{width:64px;height:84px;object-fit:cover;border-radius:8px;border:1px solid var(--line)}
+textarea{width:100%;min-height:110px;font:inherit;font-size:1rem;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:12px;resize:vertical}
+label.t{font-weight:600;font-size:.95rem}
+.status{font-size:.95rem;color:var(--muted);min-height:1.5em;text-align:center}
+.loading{display:flex;align-items:center;gap:14px}
+.dot{width:14px;height:14px;border-radius:50%;background:var(--action);flex:none}
+@media (prefers-reduced-motion:no-preference){
+  .dot{animation:breathe 1.8s ease-in-out infinite}
+  @keyframes breathe{0%,100%{transform:scale(.7);opacity:.5}50%{transform:scale(1);opacity:1}}
+  .results>*{animation:rise .35s ease-out both}
+  .results>*:nth-child(2){animation-delay:.05s}.results>*:nth-child(3){animation-delay:.1s}.results>*:nth-child(4){animation-delay:.15s}.results>*:nth-child(5){animation-delay:.2s}.results>*:nth-child(6){animation-delay:.25s}
+  @keyframes rise{from{transform:translateY(6px)}to{transform:none}}
+}
+.results{display:grid;gap:14px}
+.kicker{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:.8rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.num{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--action-soft);color:var(--action);font-size:.8rem;letter-spacing:0}
+.example{border:1px solid var(--line);border-radius:999px;padding:2px 10px;font-size:.72rem}
+.card h2{font:700 1.3rem/1.3 var(--f-display);margin:0;text-wrap:balance}
+.from{color:var(--muted);font-size:.95rem}
+.facts{display:flex;gap:18px;flex-wrap:wrap;font-size:.95rem}
+.facts span{color:var(--muted)}
+.facts strong{font-variant-numeric:tabular-nums}
+.urgency{display:flex;align-items:center;gap:12px;border-radius:14px;padding:12px 14px;font-weight:700;font-size:1.1rem}
+.urgency svg{width:28px;height:28px;flex:none}
+.u-alta{background:var(--danger-soft);color:var(--danger)}
+.u-media{background:var(--warn-soft);color:var(--warn)}
+.u-baja{background:var(--ok-soft);color:var(--ok)}
+.reason{margin:0;color:var(--ink)}
+.big{font:700 1.25rem/1.35 var(--f-display);margin:0;font-variant-numeric:tabular-nums}
+.note{margin:0;color:var(--muted);font-size:.95rem}
+ol.steps{margin:0;padding:0;list-style:none;display:grid;gap:12px;counter-reset:s}
+ol.steps li{display:grid;grid-template-columns:32px 1fr;gap:12px;align-items:start;counter-increment:s}
+ol.steps li::before{content:counter(s);display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:var(--chip);color:var(--chip-ink);font-weight:700;font-size:.95rem}
+dl.words{margin:0;display:grid;gap:10px}
+dl.words dt{font-weight:700}
+dl.words dd{margin:0;color:var(--muted)}
+ul.plain{margin:0;padding-left:1.2em;display:grid;gap:6px}
+.actions{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.privacy summary{cursor:pointer;font-weight:600;min-height:44px;display:flex;align-items:center}
+.privacy p{margin:0 0 8px;color:var(--muted);font-size:.95rem}
+.fine{font-size:.85rem;color:var(--muted);text-align:center;margin:0}
+</style>
+
+<div class="wrap">
+  <div class="bar">
+    <div class="brand">
+      <svg viewBox="0 0 1024 1024" aria-hidden="true"><rect width="1024" height="1024" fill="#0b1630"/><g transform="translate(62 40) scale(0.9)"><path d="M170 430 Q170 380 215 352 L500 175 L785 352 Q830 380 830 430 L830 760 Q830 820 770 820 L230 820 Q170 820 170 760 Z" fill="#1c3a86"/><rect x="280" y="250" width="440" height="400" rx="44" fill="#ffffff"/><path d="M380 455 L465 540 L630 360" fill="none" stroke="#3b8cff" stroke-width="62" stroke-linecap="round" stroke-linejoin="round"/><path d="M170 450 L500 650 L830 450 L830 760 Q830 820 770 820 L230 820 Q170 820 170 760 Z" fill="#24479f"/><path d="M178 452 L500 648 L822 452" fill="none" stroke="#d6a84e" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/></g></svg>
+      <span>Carta <b>Clara</b></span>
+    </div>
+    <div class="langs" role="group" aria-label="Idioma / Sprache / Language" id="langs">
+      <button type="button" data-lang="es" aria-pressed="true">ES</button>
+      <button type="button" data-lang="de" aria-pressed="false">DE</button>
+      <button type="button" data-lang="en" aria-pressed="false">EN</button>
+    </div>
+  </div>
+
+  <section class="hero">
+    <h1 data-i18n="h1"></h1>
+    <p data-i18n="intro"></p>
+  </section>
+
+  <section style="display:grid;gap:10px" id="start">
+    <label class="primary" id="primary" for="photos">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>
+      <span data-i18n="primary"></span>
+    </label>
+    <input type="file" id="photos" class="hide-input" accept="image/*,application/pdf,.pdf,.docx,.txt,text/plain,application/vnd.openxmlformats-officedocument.wordprocessingml.document" multiple>
+    <button class="secondary" type="button" id="toggleMore" aria-expanded="false" aria-controls="more" data-i18n="secondary"></button>
+  </section>
+
+  <section class="card more" id="more" hidden>
+    <label class="drop" id="drop" for="photos2">
+      <input type="file" id="photos2" class="hide-input" accept="image/*,application/pdf,.pdf,.docx,.txt,text/plain,application/vnd.openxmlformats-officedocument.wordprocessingml.document" multiple>
+      <strong data-i18n="upload"></strong>
+      <span style="font-size:.9rem" data-i18n="uploadHint"></span>
+    </label>
+    <div class="thumbs" id="thumbs"></div>
+    <div style="display:grid;gap:6px">
+      <label class="t" for="text" data-i18n="pasteLabel"></label>
+      <textarea id="text"></textarea>
+    </div>
+    <button class="primary" type="button" id="go" style="min-height:56px;font-size:1.05rem" data-i18n="go"></button>
+  </section>
+
+  <div class="status" id="status" role="status" aria-live="polite"></div>
+
+  <section class="card" id="loading" hidden>
+    <div class="loading"><span class="dot" aria-hidden="true"></span><div><strong data-i18n="loadingTitle"></strong><div class="note" data-i18n="loadingText"></div></div></div>
+    <button class="quiet" type="button" id="stop" data-i18n="stop"></button>
+  </section>
+
+  <section class="results" id="results" aria-live="polite"></section>
+
+  <details class="card privacy" id="privacy">
+    <summary data-i18n="privacyTitle"></summary>
+    <p data-i18n="privacy1"></p>
+    <p data-i18n="privacy2"></p>
+    <button class="secondary" type="button" id="clear" data-i18n="clear"></button>
+  </details>
+
+  <p class="fine" data-i18n="disclaimer"></p>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+<script>
+const $ = s => document.querySelector(s);
+const ICON = {
+  alta:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v6"/><path d="M12 16.5v.5"/></svg>',
+  media:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+  baja:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9.5"/></svg>'
+};
+const T = {
+  es:{
+    h1:"Tus cartas oficiales, por fin claras.",
+    intro:"Haz una foto de tu carta, en español, alemán, inglés u otro idioma. Te explicamos en tu idioma qué significa, qué tienes que hacer y cuándo.",
+    primary:"Entender mi carta", secondary:"Subir un documento o pegar el texto",
+    upload:"Varias páginas, PDF escaneado, Word o capturas", uploadHint:"Pulsa aquí, arrástralos o pega una captura. Máximo 5 páginas.",
+    pasteLabel:"O pega el texto de la carta", placeholder:"Por ejemplo: «Se le notifica requerimiento de documentación…»",
+    go:"Explicar mi carta", stop:"Cancelar",
+    loadingTitle:"Estamos leyendo tu carta con calma.", loadingText:"Suele tardar menos de un minuto.",
+    k1:"Qué significa", k2:"¿Es urgente?", k3:"Hasta cuándo", k4:"Qué tengo que hacer", k5:"Palabras difíciles", k6:"Lo que no está claro",
+    urg:{alta:"Sí, es urgente", media:"Requiere atención", baja:"No es urgente"},
+    noDeadline:"No hemos encontrado un plazo seguro en la carta.", noDeadlineNote:"Si crees que hay uno, confírmalo con un profesional antes de que pase el tiempo.",
+    amount:"Importe", reference:"Referencia", example:"Ejemplo",
+    copy:"Copiar resumen", copied:"Resumen copiado.", copyFail:"No se pudo copiar. Mantén pulsado el texto para seleccionarlo.",
+    ask:"Preparar preguntas para un profesional", askTitle:"Preguntas para tu gestor o abogado",
+    clear:"Borrar todo de esta pantalla", cleared:"Borrado. No queda nada de tu carta en esta pantalla.",
+    privacyTitle:"Tu privacidad", privacy1:"Tu carta se envía a Claude solo para explicártela. Esta página no guarda tus fotos ni tus cartas.",
+    privacy2:"Las cartas contienen datos personales. Cuando termines, pulsa «Borrar todo» para quitarla de la pantalla.",
+    disclaimer:"Carta Clara explica, no asesora. Para decisiones con dinero o plazos, consulta a un profesional.",
+    thumbAlt:"Página de la carta", needInput:"Elige una foto o pega el texto de la carta.", pdfReading:"Preparando el PDF…", tooMany:"He usado las primeras {n} páginas.",
+    openInClaude:"Abre Carta Clara dentro de Claude para explicar tus cartas.", failed:"No hemos podido explicar la carta. Inténtalo de nuevo en un momento.",
+    err:{not_granted:"Para explicar cartas, permite que Carta Clara use Claude.", sampling_disabled:"Claude no está disponible en esta cuenta.", rate_limited:"Has enviado muchas cartas seguidas. Espera un poco y vuelve a intentarlo.", image_rejected:"No hemos podido leer esa foto. Prueba con otra con más luz y sin moverte.", images_unavailable:"Aquí no se pueden enviar fotos. Pega el texto de la carta.", refused:"No podemos explicar este contenido.", invalid_json:"La explicación salió incompleta. Vuelve a intentarlo.", session_expired:"Vuelve a iniciar sesión en Claude."},
+    langName:"español",
+    copyHead:"Resumen de Carta Clara",
+    ex:{emisor:"Agencia Tributaria (AEAT)",tipo:"Requerimiento de documentación",resumen:"Hacienda te pide que demuestres unos gastos que dedujiste en tu declaración de la renta de 2025. No es una multa: es una petición de papeles.",urgencia:"alta",motivo_urgencia:"Tiene un plazo corto y, si no respondes, puedes perder la deducción.",plazo:"10 días hábiles desde que recibiste la carta",importe:"",referencia:"2026GRC4718…",que_hacer:["Reúne las facturas de los gastos que se mencionan.","Entra en la sede electrónica de la AEAT con tu certificado o Cl@ve y aporta los documentos en el apartado del requerimiento.","Guarda el justificante de presentación."],glosario:[{termino:"Requerimiento",explicacion:"Petición formal de información o documentos."},{termino:"Días hábiles",explicacion:"Se cuentan sin sábados, domingos ni festivos."}],falta:["La fecha exacta en que recibiste la carta, que marca el inicio del plazo."],preguntas:["¿Qué facturas exactamente tengo que presentar?","¿Desde qué día cuento los 10 días hábiles?","¿Qué pasa si no encuentro alguna factura?"]}
+  },
+  de:{
+    h1:"Ihre Behördenbriefe, endlich verständlich.",
+    intro:"Fotografieren Sie Ihren Brief – auf Spanisch, Deutsch, Englisch oder in einer anderen Sprache. Wir erklären in Ihrer Sprache, was er bedeutet, was Sie tun müssen und bis wann.",
+    primary:"Meinen Brief verstehen", secondary:"Dokument hochladen oder Text einfügen",
+    upload:"Mehrere Seiten, gescanntes PDF, Word oder Screenshots", uploadHint:"Hier tippen, Dateien hierher ziehen oder einen Screenshot einfügen. Höchstens 5 Seiten.",
+    pasteLabel:"Oder fügen Sie den Text des Briefes ein", placeholder:"Zum Beispiel: „Se le notifica requerimiento de documentación…“",
+    go:"Meinen Brief erklären", stop:"Abbrechen",
+    loadingTitle:"Wir lesen Ihren Brief in Ruhe.", loadingText:"Das dauert meist weniger als eine Minute.",
+    k1:"Was es bedeutet", k2:"Ist es dringend?", k3:"Bis wann", k4:"Was ich tun muss", k5:"Schwierige Begriffe", k6:"Was unklar ist",
+    urg:{alta:"Ja, es ist dringend", media:"Braucht Aufmerksamkeit", baja:"Nicht dringend"},
+    noDeadline:"Wir haben im Brief keine sichere Frist gefunden.", noDeadlineNote:"Wenn Sie glauben, dass es eine gibt, klären Sie das rechtzeitig mit einer Fachperson.",
+    amount:"Betrag", reference:"Aktenzeichen", example:"Beispiel",
+    copy:"Zusammenfassung kopieren", copied:"Zusammenfassung kopiert.", copyFail:"Kopieren ging nicht. Halten Sie den Text gedrückt, um ihn auszuwählen.",
+    ask:"Fragen für eine Fachperson vorbereiten", askTitle:"Fragen für Ihren Gestor oder Anwalt",
+    clear:"Alles von diesem Bildschirm löschen", cleared:"Gelöscht. Von Ihrem Brief ist auf diesem Bildschirm nichts mehr.",
+    privacyTitle:"Ihre Privatsphäre", privacy1:"Ihr Brief wird nur zur Erklärung an Claude gesendet. Diese Seite speichert Ihre Fotos und Briefe nicht.",
+    privacy2:"Briefe enthalten persönliche Daten. Wenn Sie fertig sind, tippen Sie auf „Alles löschen“.",
+    disclaimer:"Carta Clara erklärt, berät aber nicht. Bei Geld oder Fristen fragen Sie eine Fachperson.",
+    thumbAlt:"Seite des Briefes", needInput:"Wählen Sie ein Foto oder fügen Sie den Text ein.", pdfReading:"PDF wird vorbereitet…", tooMany:"Ich habe die ersten {n} Seiten verwendet.",
+    openInClaude:"Öffnen Sie Carta Clara in Claude, um Ihre Briefe erklären zu lassen.", failed:"Wir konnten den Brief nicht erklären. Versuchen Sie es gleich noch einmal.",
+    err:{not_granted:"Erlauben Sie Carta Clara, Claude zu verwenden.", sampling_disabled:"Claude ist für dieses Konto nicht verfügbar.", rate_limited:"Viele Briefe hintereinander. Warten Sie kurz und versuchen Sie es erneut.", image_rejected:"Das Foto ließ sich nicht lesen. Versuchen Sie eines mit mehr Licht und ruhiger Hand.", images_unavailable:"Hier können keine Fotos gesendet werden. Fügen Sie den Text ein.", refused:"Diesen Inhalt können wir nicht erklären.", invalid_json:"Die Erklärung ist unvollständig. Bitte erneut versuchen.", session_expired:"Bitte melden Sie sich erneut bei Claude an."},
+    langName:"Deutsch",
+    copyHead:"Zusammenfassung von Carta Clara",
+    ex:{emisor:"Spanisches Finanzamt (Agencia Tributaria, AEAT)",tipo:"Aufforderung zur Vorlage von Unterlagen (requerimiento)",resumen:"Das Finanzamt bittet Sie, Ausgaben nachzuweisen, die Sie in Ihrer Einkommensteuererklärung 2025 abgesetzt haben. Das ist kein Bußgeld, sondern eine Anfrage nach Belegen.",urgencia:"alta",motivo_urgencia:"Die Frist ist kurz, und ohne Antwort kann der Abzug gestrichen werden.",plazo:"10 Werktage ab Erhalt des Briefes",importe:"",referencia:"2026GRC4718…",que_hacer:["Sammeln Sie die Rechnungen für die genannten Ausgaben.","Melden Sie sich mit Ihrem digitalen Zertifikat oder Cl@ve auf der Website der AEAT (sede electrónica) an und laden Sie die Unterlagen beim Vorgang hoch.","Bewahren Sie die Eingangsbestätigung auf."],glosario:[{termino:"Requerimiento",explicacion:"Förmliche Aufforderung, Informationen oder Unterlagen vorzulegen."},{termino:"Días hábiles",explicacion:"Werktage: ohne Samstage, Sonntage und Feiertage."}],falta:["Das genaue Datum, an dem Sie den Brief erhalten haben. Ab dann läuft die Frist."],preguntas:["Welche Rechnungen genau muss ich vorlegen?","Ab welchem Tag zähle ich die 10 Werktage?","Was passiert, wenn ich eine Rechnung nicht finde?"]}
+  },
+  en:{
+    h1:"Your official letters, finally clear.",
+    intro:"Take a photo of your letter, in Spanish, German, English or another language. We explain in your language what it means, what you need to do and by when.",
+    primary:"Understand my letter", secondary:"Upload a document or paste the text",
+    upload:"Several pages, scanned PDF, Word or screenshots", uploadHint:"Tap here, drag files in or paste a screenshot. Up to 5 pages.",
+    pasteLabel:"Or paste the text of the letter", placeholder:"For example: “Se le notifica requerimiento de documentación…”",
+    go:"Explain my letter", stop:"Cancel",
+    loadingTitle:"We're reading your letter carefully.", loadingText:"It usually takes less than a minute.",
+    k1:"What it means", k2:"Is it urgent?", k3:"By when", k4:"What I need to do", k5:"Difficult words", k6:"What isn't clear",
+    urg:{alta:"Yes, it's urgent", media:"Needs attention", baja:"Not urgent"},
+    noDeadline:"We didn't find a reliable deadline in the letter.", noDeadlineNote:"If you think there is one, check with a professional in good time.",
+    amount:"Amount", reference:"Reference", example:"Example",
+    copy:"Copy summary", copied:"Summary copied.", copyFail:"Couldn't copy. Press and hold the text to select it.",
+    ask:"Prepare questions for a professional", askTitle:"Questions for your gestor or lawyer",
+    clear:"Clear everything from this screen", cleared:"Cleared. Nothing of your letter is left on this screen.",
+    privacyTitle:"Your privacy", privacy1:"Your letter is sent to Claude only to explain it to you. This page doesn't save your photos or letters.",
+    privacy2:"Letters contain personal data. When you're done, tap “Clear everything”.",
+    disclaimer:"Carta Clara explains, it doesn't advise. For decisions about money or deadlines, ask a professional.",
+    thumbAlt:"Page of the letter", needInput:"Choose a photo or paste the text of the letter.", pdfReading:"Preparing the PDF…", tooMany:"I used the first {n} pages.",
+    openInClaude:"Open Carta Clara in Claude to explain your letters.", failed:"We couldn't explain the letter. Please try again in a moment.",
+    err:{not_granted:"To explain letters, allow Carta Clara to use Claude.", sampling_disabled:"Claude isn't available on this account.", rate_limited:"You've sent many letters in a row. Wait a moment and try again.", image_rejected:"We couldn't read that photo. Try one with more light and a steady hand.", images_unavailable:"Photos can't be sent here. Paste the text instead.", refused:"We can't explain this content.", invalid_json:"The explanation came out incomplete. Please try again.", session_expired:"Please sign in to Claude again."},
+    langName:"English",
+    copyHead:"Carta Clara summary",
+    ex:{emisor:"Spanish Tax Agency (Agencia Tributaria, AEAT)",tipo:"Request for documents (requerimiento)",resumen:"The tax office is asking you to prove some expenses you deducted in your 2025 income tax return. It is not a fine: it is a request for paperwork.",urgencia:"alta",motivo_urgencia:"The deadline is short, and if you don't reply you could lose the deduction.",plazo:"10 working days from when you received the letter",importe:"",referencia:"2026GRC4718…",que_hacer:["Gather the invoices for the expenses mentioned.","Log in to the AEAT website (sede electrónica) with your digital certificate or Cl@ve and upload the documents under this request.","Keep the submission receipt."],glosario:[{termino:"Requerimiento",explicacion:"A formal request for information or documents."},{termino:"Días hábiles",explicacion:"Working days: Saturdays, Sundays and public holidays don't count."}],falta:["The exact date you received the letter, which starts the deadline."],preguntas:["Which invoices exactly do I need to submit?","From which day do I count the 10 working days?","What happens if I can't find one of the invoices?"]}
+  }
+};
+
+let lang = "es", files = [], ctl = null, sample = null, last = null, booted = false, maxImages = 5, showAsk = false;
+try { const n = (navigator.language || "").slice(0,2); if (T[n]) lang = n; } catch {}
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const arr = v => Array.isArray(v) ? v.filter(Boolean) : [];
+
+function render(){
+  const t = T[lang];
+  const r = last || {...t.ex, ejemplo:true};
+  const u = ["alta","media","baja"].includes(r.urgencia) ? r.urgencia : "media";
+  const ex = r.ejemplo ? `<span class="example">${t.example}</span>` : "";
+  const facts = [r.importe && `<div><span>${t.amount}</span> <strong>${esc(r.importe)}</strong></div>`, r.referencia && `<div><span>${t.reference}</span> <strong>${esc(r.referencia)}</strong></div>`].filter(Boolean).join("");
+  const steps = arr(r.que_hacer), words = arr(r.glosario), missing = arr(r.falta), qs = arr(r.preguntas);
+  let n = 0; const k = (label) => `<div class="kicker"><span class="num">${++n}</span>${label}${n===1?ex:""}</div>`;
+  $("#results").innerHTML = `
+    <article class="card" id="c-meaning">${k(t.k1)}
+      <div class="from">${esc(r.emisor)}${r.tipo ? " · " + esc(r.tipo) : ""}</div>
+      <h2>${esc(r.resumen)}</h2>
+      ${facts ? `<div class="facts">${facts}</div>` : ""}
+    </article>
+    <article class="card" id="c-urgent">${k(t.k2)}
+      <div class="urgency u-${u}">${ICON[u]}<span>${t.urg[u]}</span></div>
+      ${r.motivo_urgencia ? `<p class="reason">${esc(r.motivo_urgencia)}</p>` : ""}
+    </article>
+    <article class="card" id="c-deadline">${k(t.k3)}
+      ${r.plazo ? `<p class="big">${esc(r.plazo)}</p>` : `<p class="big">${t.noDeadline}</p><p class="note">${t.noDeadlineNote}</p>`}
+    </article>
+    ${steps.length ? `<article class="card" id="c-steps">${k(t.k4)}<ol class="steps">${steps.map(s=>`<li><span>${esc(s)}</span></li>`).join("")}</ol></article>` : ""}
+    ${words.length ? `<article class="card" id="c-words">${k(t.k5)}<dl class="words">${words.map(w=>`<div><dt>${esc(w.termino)}</dt><dd>${esc(w.explicacion)}</dd></div>`).join("")}</dl></article>` : ""}
+    ${missing.length ? `<article class="card" id="c-missing">${k(t.k6)}<ul class="plain">${missing.map(m=>`<li>${esc(m)}</li>`).join("")}</ul></article>` : ""}
+    <div class="actions">
+      <button class="secondary" type="button" id="copyBtn">${t.copy}</button>
+      ${qs.length ? `<button class="secondary" type="button" id="askBtn" aria-expanded="${showAsk}">${t.ask}</button>` : ""}
+    </div>
+    ${qs.length && showAsk ? `<article class="card" id="c-questions"><div class="kicker">${t.askTitle}</div><ol class="steps">${qs.map(q=>`<li><span>${esc(q)}</span></li>`).join("")}</ol></article>` : ""}
+  `;
+  $("#copyBtn").onclick = copySummary;
+  const a = $("#askBtn"); if (a) a.onclick = () => { showAsk = !showAsk; render(); $("#c-questions")?.scrollIntoView({behavior:"smooth", block:"nearest"}); };
+}
+
+function summaryText(){
+  const t = T[lang], r = last || t.ex, u = ["alta","media","baja"].includes(r.urgencia) ? r.urgencia : "media";
+  const lines = [t.copyHead, "", `${t.k1}: ${r.resumen}`, `${r.emisor || ""}${r.tipo ? " · " + r.tipo : ""}`, `${t.k2}: ${t.urg[u]}${r.motivo_urgencia ? " — " + r.motivo_urgencia : ""}`, `${t.k3}: ${r.plazo || t.noDeadline}`];
+  if (r.importe) lines.push(`${t.amount}: ${r.importe}`);
+  if (r.referencia) lines.push(`${t.reference}: ${r.referencia}`);
+  const steps = arr(r.que_hacer); if (steps.length) { lines.push("", t.k4 + ":"); steps.forEach((s,i)=>lines.push(`${i+1}. ${s}`)); }
+  const qs = arr(r.preguntas); if (qs.length) { lines.push("", t.askTitle + ":"); qs.forEach((q,i)=>lines.push(`${i+1}. ${q}`)); }
+  return lines.join("\n");
+}
+async function copySummary(){
+  const t = T[lang];
+  try { await navigator.clipboard.writeText(summaryText()); $("#status").textContent = t.copied; }
+  catch { $("#status").textContent = t.copyFail; }
+}
+
+function applyLang(){
+  const t = T[lang];
+  document.documentElement.lang = lang;
+  document.querySelectorAll("[data-i18n]").forEach(el => { el.textContent = t[el.dataset.i18n]; });
+  $("#text").placeholder = t.placeholder;
+  document.querySelectorAll("#langs button").forEach(b => b.setAttribute("aria-pressed", b.dataset.lang === lang));
+  document.querySelectorAll("#thumbs img").forEach(i => i.alt = t.thumbAlt);
+  $("#status").textContent = "";
+  render();
+}
+applyLang();
+$("#langs").addEventListener("click", e => { const b = e.target.closest("button[data-lang]"); if (!b) return; lang = b.dataset.lang; applyLang(); });
+
+$("#toggleMore").addEventListener("click", () => {
+  const m = $("#more"); m.hidden = !m.hidden; $("#toggleMore").setAttribute("aria-expanded", String(!m.hidden));
+  if (!m.hidden) m.scrollIntoView({behavior:"smooth", block:"nearest"});
+});
+
+async function pdfToImages(file){
+  const lib = window.pdfjsLib; if (!lib) return [];
+  const pdf = await lib.getDocument({data: await file.arrayBuffer()}).promise;
+  const out = [];
+  for (let p = 1; p <= Math.min(pdf.numPages, maxImages); p++){
+    const page = await pdf.getPage(p), vp = page.getViewport({scale: 2});
+    const c = document.createElement("canvas"); c.width = vp.width; c.height = vp.height;
+    await page.render({canvasContext: c.getContext("2d"), viewport: vp}).promise;
+    out.push(await new Promise(r => c.toBlob(r, "image/jpeg", 0.85)));
+  }
+  return out;
+}
+function addText(s){ const ta = $("#text"); ta.value = (ta.value ? ta.value + "\n\n" : "") + String(s || "").trim(); }
+async function addFiles(list){
+  const t = T[lang]; const imgs = [];
+  for (const f of [...list]){
+    if (f.type === "application/pdf" || /\.pdf$/i.test(f.name || "")){
+      $("#status").textContent = t.pdfReading;
+      try { imgs.push(...await pdfToImages(f)); } catch { $("#status").textContent = t.failed; }
+    } else if (/^image\//.test(f.type)) imgs.push(f);
+    else if (/\.docx$/i.test(f.name || "") && window.mammoth){
+      try { const r = await mammoth.extractRawText({arrayBuffer: await f.arrayBuffer()}); addText(r.value); } catch { $("#status").textContent = t.failed; }
+    } else if (f.type === "text/plain" || /\.txt$/i.test(f.name || "")) addText(await f.text());
+  }
+  const all = [...files, ...imgs];
+  files = all.slice(0, maxImages);
+  $("#status").textContent = all.length > maxImages ? t.tooMany.replace("{n}", maxImages) : "";
+  $("#thumbs").innerHTML = "";
+  files.forEach(f => { const i = new Image(); i.alt = t.thumbAlt; i.src = URL.createObjectURL(f); $("#thumbs").append(i); });
+}
+// Primary: pick or photograph, then explain straight away
+$("#photos").addEventListener("change", async e => { const l = [...e.target.files]; e.target.value = ""; if (!l.length) return; files = []; $("#text").value = ""; $("#thumbs").innerHTML = ""; await addFiles(l); explain(); });
+$("#photos2").addEventListener("change", async e => { const l = [...e.target.files]; e.target.value = ""; await addFiles(l); });
+const drop = $("#drop");
+["dragenter","dragover"].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.add("over"); }));
+["dragleave","drop"].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.remove("over"); }));
+drop.addEventListener("drop", e => addFiles(e.dataTransfer.files));
+document.addEventListener("paste", e => {
+  const imgs = [...(e.clipboardData?.files || [])].filter(f => /^image\//.test(f.type));
+  if (imgs.length){ e.preventDefault(); $("#more").hidden = false; addFiles(imgs); }
+});
+
+function prompt(text){
+  return `You are a careful administrative expert who explains official letters to ordinary people, including older people and people living abroad, in a calm, kind tone. The letter can come from any country (for example Spain, Germany, Austria, Switzerland or the UK) and can be written in any language. First work out which country and which authority or company sent it, and explain it according to the rules and procedures of THAT country (for example, a German Finanzamt letter follows German rules, not Spanish ones). If it is not an official letter but an important private one (bank, insurer, landlord, employer, utility), explain it the same way.
+Read the letter (in the images and/or the text) and reply with ONLY one JSON object. Write every value entirely in ${T[lang].langName}, in short, plain sentences a native speaker would use. Keep official terms in the original language (such as "requerimiento", "Cl@ve", "Bescheid" or "Widerspruch") as they are and explain them in the glossary. In "emisor", name the sender and its country.
+Shape:
+{"emisor": string, "tipo": string, "resumen": string (1-2 clear sentences saying what the letter means for the reader), "urgencia": "alta"|"media"|"baja", "motivo_urgencia": string (one sentence: why), "plazo": string (the deadline and from when it counts, ONLY if the letter states it clearly; otherwise ""), "importe": string (only if stated, else ""), "referencia": string (case number or ""), "que_hacer": [string] (concrete numbered steps, max 5), "glosario": [{"termino": string, "explicacion": string}] (max 4, everyday words), "falta": [string] (information that is missing, unreadable or uncertain and that matters, e.g. the date of receipt; [] if none), "preguntas": [string] (3-5 questions the reader should ask a gestor or lawyer about this letter)}
+Never invent deadlines, amounts or obligations. If you are not sure, leave the field empty and say what is missing in "falta". Keep the JSON keys and the "urgencia" values exactly as shown. If it does not look like an official letter, say so in "resumen".
+${text ? "Letter text:\n" + text.slice(0, 20000) : ""}`;
+}
+
+const API = "https://carta-clara-api.villaflordeloto9.workers.dev/explain";
+function deviceId(){ let id=null; try{ id=localStorage.getItem("cc-device"); }catch{} if(!id){ id="web-"+Date.now().toString(36)+Math.random().toString(36).slice(2,10); try{ localStorage.setItem("cc-device",id); }catch{} } return id; }
+function toJpeg64(file){ return new Promise((ok,ko)=>{ const img=new Image(); img.onload=()=>{ const sc=Math.min(1,1600/Math.max(img.width,img.height)); const c=document.createElement("canvas"); c.width=Math.round(img.width*sc); c.height=Math.round(img.height*sc); c.getContext("2d").drawImage(img,0,0,c.width,c.height); ok(c.toDataURL("image/jpeg",0.75).split(",")[1]); URL.revokeObjectURL(img.src); }; img.onerror=ko; img.src=URL.createObjectURL(file); }); }
+async function explain(){
+  const t = T[lang], text = $("#text").value.trim();
+  if (!files.length && !text){ $("#status").textContent = t.needInput; return; }
+  ctl = new AbortController();
+  $("#primary").setAttribute("aria-disabled","true"); $("#go").disabled = true;
+  $("#loading").hidden = false; $("#status").textContent = "";
+  $("#loading").scrollIntoView({behavior:"smooth", block:"center"});
+  try {
+    const images = await Promise.all(files.map(toJpeg64));
+    const res = await fetch(API, { method:"POST", headers:{"content-type":"application/json"}, body: JSON.stringify({lang, images, text, deviceId: deviceId()}), signal: ctl.signal });
+    if (res.status === 429) throw {code:"rate_limited"};
+    if (!res.ok) throw {code:"failed"};
+    const r = await res.json();
+    if (!r || typeof r !== "object" || !r.resumen) throw {code:"invalid_json"};
+    last = r; showAsk = false; render();
+    $("#results").scrollIntoView({behavior:"smooth", block:"start"});
+  } catch(e){
+    $("#status").textContent = (e && e.name === "AbortError") ? "" : (t.err[e.code] || t.failed);
+  } finally {
+    $("#loading").hidden = true; $("#primary").removeAttribute("aria-disabled"); $("#go").disabled = false;
+  }
+}
+$("#go").addEventListener("click", explain);
+$("#stop").addEventListener("click", () => ctl?.abort());
+$("#clear").addEventListener("click", () => {
+  ctl?.abort(); files = []; last = null; showAsk = false;
+  $("#thumbs").innerHTML = ""; $("#text").value = ""; render();
+  $("#status").textContent = T[lang].cleared;
+});
+
+booted = true;
+</script>
+
+</body></html>
